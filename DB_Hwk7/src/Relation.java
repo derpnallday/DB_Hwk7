@@ -159,6 +159,11 @@ public class Relation extends AbstractRelation {
 		StringBuilder line = new StringBuilder();
 
 		// build a line banner
+		System.out.println("attr list::  " + attribute_list.size());
+		
+		
+		
+		
 		for (int i = 0; i < (this.attribute_list.size()*Tuple.COL_SPACING+this.attribute_list.size()+1); i++) {
 			line.append("-");
 		}

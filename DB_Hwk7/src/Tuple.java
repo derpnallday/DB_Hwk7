@@ -127,4 +127,29 @@ public class Tuple extends AbstractTuple implements Cloneable {
 		}
 		return this.data.get(((Relation)this.relation).lookup(attr_name));
 	}
+	
+	
+	/**
+	 * @author Derek Albosta
+	 * used to compare tuples based on attributes given
+	 * @param o other tuple
+	 * @param atts attributes to sort by
+	 * @return comparator value
+	 */
+	@SuppressWarnings("unchecked")
+	public int compare(Tuple o, String[] atts) {
+		int c=0; //compare to value
+		int w= (int) Math.pow(100, atts.length);//weight for first attribute
+		
+		//append all data compareTo values
+		for(int i=0;i<atts.length; i++){
+			c+=  w * this.valueOf(atts[i]).compareTo(o.valueOf(atts[i]));
+			//c+= w * this.valueOf(atts[i]).compareTo(o.valueOf(atts[i]));
+			w /= 100; //adjust weight
+			//System.out.println(this.valueOf(atts[i]).compareTo(o.valueOf(atts[i])));
+		}
+		return c;
+	}
+	
+	
 }

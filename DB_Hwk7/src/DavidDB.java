@@ -2,6 +2,9 @@ import exceptions.*;
 import perf.Timeable;
 import solver.*;
 import java.util.*;
+
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -16,8 +19,6 @@ import java.io.IOException;
 public class DavidDB extends AbstractDB implements Timeable{
 
 	protected double time;
-	protected double startTime;
-	protected double endTime;
 
 	/**
 	 * Creates a new instance of DavidDB.
@@ -26,8 +27,6 @@ public class DavidDB extends AbstractDB implements Timeable{
 	public DavidDB(String filename) throws FileNotFoundException {
 		super(filename);
 		this.time = 0;
-		this.startTime = 0;
-		this.endTime = 0;
 	}
 
 	/**
@@ -140,14 +139,15 @@ public class DavidDB extends AbstractDB implements Timeable{
 					first.schemaToString() + " and " + second.schemaToString());
 		}	
 
-		startTime = System.nanoTime();		
+		double startTime = System.nanoTime();		
+
 		Relation new_relation = (Relation) first.clone();
 		new_relation.getTuples().addAll(second.getTuples());
-		endTime = System.nanoTime();
+
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return new_relation;	
 
@@ -173,17 +173,17 @@ public class DavidDB extends AbstractDB implements Timeable{
 
 
 		//get time
-		startTime = System.nanoTime();	
+		double startTime = System.nanoTime();	
 
 		// generate a new relation containing the diff
 		Relation new_relation = (Relation) first.clone();
 		new_relation.getTuples().removeAll(second.getTuples());
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
+
 		return new_relation;
 	}
 
@@ -202,7 +202,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 
 
 		//get time
-		startTime = System.nanoTime();	
+		double startTime = System.nanoTime();	
 
 		Relation left = (Relation) first.clone();
 		Relation right = (Relation) second.clone();
@@ -223,11 +223,10 @@ public class DavidDB extends AbstractDB implements Timeable{
 			}
 		}
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return new_relation;
 	}
@@ -269,7 +268,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 		}
 
 		//get time
-		startTime = System.nanoTime();
+		double startTime = System.nanoTime();
 
 		Relation result = (Relation) r.clone();
 		result.getTuples().clear();
@@ -281,11 +280,10 @@ public class DavidDB extends AbstractDB implements Timeable{
 			}
 		}
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return result;
 	}
@@ -331,7 +329,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 	 */
 	public Relation project(Relation r, String[] projection_list) throws DBException {
 		//get time
-		startTime = System.nanoTime();
+		double startTime = System.nanoTime();
 
 		// get attributes of r
 		List<Attribute> attributes = r.getAttributes();
@@ -355,11 +353,10 @@ public class DavidDB extends AbstractDB implements Timeable{
 			projection.addTuple(new_tuple);
 		}
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return projection;
 	}
@@ -415,7 +412,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 	@Override
 	public Relation renameRelation(Relation r, String newName) {
 		//get time
-		startTime = System.nanoTime();
+		double startTime = System.nanoTime();
 
 		Relation new_relation = (Relation) r.clone();
 
@@ -427,11 +424,10 @@ public class DavidDB extends AbstractDB implements Timeable{
 		new_relation.setName(newName);
 		new_relation.setAttributes(list);	// this to reset the map with new pedantic names
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return new_relation;
 	}
@@ -447,7 +443,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 	@Override
 	public Relation renameAttributes(Relation r, String[] list) throws DBException {
 		//get time
-		startTime = System.nanoTime();
+		double startTime = System.nanoTime();
 
 
 		Relation new_relation = (Relation) r.clone();
@@ -469,11 +465,10 @@ public class DavidDB extends AbstractDB implements Timeable{
 		}
 		new_relation.setAttributes(new_list);
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return new_relation;
 	}
@@ -506,7 +501,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 	@Override
 	public Relation aggregate(Relation r, Agg[] agg_fns, String[] attrs, String[] groups)throws DBException {
 		//get time
-		startTime = System.nanoTime();
+		double startTime = System.nanoTime();
 
 		/*** phase 1: create new relation and specify its attributes ***/
 		Relation new_relation = new Relation();
@@ -589,11 +584,10 @@ public class DavidDB extends AbstractDB implements Timeable{
 			new_relation.addTuple(agg_tuple.concat(new Tuple(agg_values, new_relation)));
 		}
 
-		endTime = System.nanoTime();
+		double endTime = System.nanoTime();
 
 		//add time
 		time += endTime - startTime;
-		resetTimers();
 
 		return new_relation;
 	}
@@ -801,16 +795,23 @@ public class DavidDB extends AbstractDB implements Timeable{
 
 
 
-
-
-
+	/**
+	 * (Hwk 6 addition)
+	 * Performs a natural join between two relations using the hash-join algorithm.
+	 * @param r1	first relation
+	 * @param r2	second relation
+	 * @return a reference to a relation containing the joined data
+	 * @throws DBException
+	 * @pre the common attributes in r1 must be unique
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public Relation hashJoin(Relation r1, Relation r2) throws DBException {
-
+	public Relation hashJoin(Relation R1, Relation R2) throws DBException {
 		//Precondition: The common attribute in R must be unique
 		//Input: Relation r1, Relation r2
 		//Output: Relation join
+		Relation r1 = (Relation) R1.clone();
+		Relation r2 = (Relation) R2.clone();
 
 		// determine common attributes and use as key
 		Set<Attribute> common = new HashSet<>(r1.getAttributes());
@@ -819,23 +820,31 @@ public class DavidDB extends AbstractDB implements Timeable{
 			return times(r1,r2);
 		}
 
-
-		System.out.println("COMMON");
-		for (Attribute a: common){
-			System.out.println(a.getName());
-		}
-
+		//get time
+		double startTime = System.nanoTime();
 
 		// return this
 		Relation join = new Relation();
-		//set attribute list for join
+
+		//create attribute list for join
 		List<Attribute> newAtts = new ArrayList<Attribute>();
 
+		//add all attrs from rel 1
+		for (Attribute a: r1.attribute_list){
+			newAtts.add(a);
+		}
+		//add non duped attrs from rel 2
+		for (Attribute a: r2.attribute_list){
+			if (!newAtts.contains(a)){
+				newAtts.add(a);
+			}
+		}
+		//set relation of attrs
+		for (Attribute a: newAtts){
+			a.setRelation(join);
+		}
 
-
-
-
-
+		join.setAttributes(newAtts);
 
 		// Phase I: Hash every tuple of R by the value
 		// of the common attribute
@@ -869,10 +878,7 @@ public class DavidDB extends AbstractDB implements Timeable{
 				c.add(r.valueOf(a.getName()));
 			}
 
-
-
-
-			//check if keyed value 
+			//check if keyed value is in map
 			if (map.containsKey(c)) {
 				//get mapped value
 				List<Comparable> data = new ArrayList<Comparable>();
@@ -880,46 +886,178 @@ public class DavidDB extends AbstractDB implements Timeable{
 
 				//subtract common attribute out of r2
 				List<Comparable> r2Data = new ArrayList<Comparable>();
-				r2Data = r.data;
+				r2Data.addAll(r.data);
 				r2Data.removeAll(c);
 
 				//combine tuple values
 				data.addAll(r2Data);
 
-
-				System.out.println("DATA" + data.toString());
-
 				//add tuple to relation
-				Tuple tup = new Tuple(data,join);
-
-				System.out.println(tup);
-				System.out.println("SIZE: "+tup.size());
-
-
-
+				join.addTuple(new Tuple(data,join));
 			}
-
-
-
 		}
+		double endTime = System.nanoTime();
 
-
+		//add time
+		time += (endTime - startTime);
 		return join;
 	}
 
+	/**
+	 * @return the elapsed time (in milliseconds) since last reset.
+	 */
 	@Override
 	public double getElapsedTime() {
-		return time;
+		return time/1000000.0;
 	}
 
+	/**
+	 * Resets the elapsed time to zero.
+	 */
 	@Override
 	public void resetElapsedTime() {
-		time = 0;	
+		time = 0.0;	
 	}
 
 
-	private void resetTimers(){
-		startTime=0;
-		endTime=0;
+	/**
+	 * (Hwk 6 addition)
+	 * Performs a natural join between two relations using the sort-merge algorithm.
+	 * @param r1	first relation
+	 * @param r2	second relation
+	 * @return a reference to a relation containing the joined data
+	 * @pre the common attributes in r1 must be unique
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Relation sortJoin(Relation r1, Relation r2){
+
+		//check for common attribute
+		Set<Attribute> common = new HashSet<>(r1.getAttributes());
+		common.retainAll(r2.getAttributes());
+		if (common.size() == 0) {	// no common attributes, natural join reduces to product
+			return times(r1,r2);
+		}
+
+		//get time
+		double startTime = System.nanoTime();
+
+		//create and set up new relation
+		Relation T = new Relation();	
+		//create attribute list for join
+		List<Attribute> newAtts = new ArrayList<Attribute>();
+
+		//add all attrs from rel 1
+		for (Attribute a: r1.attribute_list){
+			newAtts.add(a);
+		}
+		//add non duped attrs from rel 2
+		for (Attribute a: r2.attribute_list){
+			if (!newAtts.contains(a)){
+				newAtts.add(a);
+			}
+		}
+		//set relation of attrs
+		for (Attribute a: newAtts){
+			a.setRelation(T);
+		}
+
+		T.setAttributes(newAtts);
+
+
+		//make common attrs into string format for sort method
+		String[] groups = new String[common.size()];
+		int p = 0;
+		for (Attribute a: common) {
+			groups[p] = a.getName();
+			p++;
+		}
+
+		//check if relation is sorted and if not mergesort
+		ArrayList <Tuple> r1Tup = isSorted(r1,groups);
+		ArrayList <Tuple> r2Tup = isSorted(r2,groups);	
+
+		//set counters
+		int i = 0, j = 0;
+		while (i < r1Tup.size() && j < r2Tup.size()) {
+			// Match found, enter merge phase
+			Comparable r1Val = r1Tup.get(i).valueOf(groups[0]);
+			Comparable r2Val = r2Tup.get(j).valueOf(groups[0]);
+
+			if (r1Tup.get(i).valueOf(groups[0]).equals(r2Tup.get(j).valueOf(groups[0]))) {
+				while (r1Tup.get(i).valueOf(groups[0]).equals(r2Tup.get(j).valueOf(groups[0])) && i < r1Tup.size()) {
+					int k = j;
+
+					while (r1Tup.get(i).valueOf(groups[0]).equals(r2Tup.get(k).valueOf(groups[0])) && k < r2Tup.size()) {	
+
+						//get mapped value
+						List<Comparable> data = new ArrayList<Comparable>();
+						data.addAll(r1Tup.get(i).data);			
+
+						//subtract common attribute out of r
+						List<Attribute> r2Atts = new ArrayList<Attribute>();
+						r2Atts.addAll(r2.attribute_list);
+						r2Atts.removeAll(common);
+
+						for (Attribute a : r2Atts) {			
+							data.add(r2Tup.get(k).valueOf(a.getName()));
+						}
+						//add tuple to relation
+						T.addTuple(new Tuple(data,T));
+						k++;
+						if (k >= r2Tup.size()) break;
+					}
+					i++;
+					if (i >= r1Tup.size()) break;
+				}
+			}
+			else if (r1Val.compareTo(r2Val) < 0) {
+				i++;
+			} else {
+				j++;
+			}
+		}
+		double endTime = System.nanoTime();
+
+		//add time
+		time += (endTime - startTime);
+		return T;
+	}
+
+
+
+
+
+	//check if array is sorted on the group and sorts if not
+	private ArrayList<Tuple> isSorted(Relation r, String[] groups) {
+		// sort tuples by g1, g2, g3, ...
+		ArrayList<Tuple> tups = new ArrayList<>(r.getTuples());
+		ArrayList<Tuple> group;
+		Boolean sorted = true;
+
+		if (groups != null) {
+			GroupComparator grp_cmp = new GroupComparator(r, groups);
+
+			//loop through array to make sure everything is in order
+			for (int i=0; i<tups.size()-2; i++) {
+				Tuple t1 = tups.get(i);
+				Tuple t2 = tups.get(i+1);
+
+				//if t1 is larger than t2 than it is not sorted
+				if (grp_cmp.compare(t1, t2) > 0) {
+					sorted = false;
+					break;	
+				}
+			}
+			//if it is sorted return the array
+			if (sorted == true) {
+				return tups;
+			}	
+			Collections.sort(tups, grp_cmp);
+		}
+		return tups;
+
+
+
+
 	}
 }

@@ -35,6 +35,9 @@ public class DBTester {
 //		System.out.println(products);
 
 		System.out.println("========================MY QUERIES");
+		
+		
+	
 		Relation nj0 = db.naturalJoin(offices, employees);
 		System.out.println(nj0);
 		System.out.println("Rows Returned: " + nj0.getTuples().size());
@@ -42,7 +45,14 @@ public class DBTester {
 		db.resetElapsedTime();
 //		Elapsed Time: 628.5571739999999 ms
 
+	
 		
+		
+		Relation smj = db.sortJoin(offices, employees);
+		System.out.println(smj);
+		System.out.println("Rows Returned: " + smj.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 		
 		
 		Relation hj0 = db.hashJoin(offices, employees);
@@ -51,6 +61,8 @@ public class DBTester {
 		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
 		db.resetElapsedTime();
 //		Elapsed Time: 0.213189 ms
+ 
+ 
 		
 		
 		
@@ -61,62 +73,76 @@ public class DBTester {
 
 
 
-
-//		Relation nj1 = db.naturalJoin(customers, payments);
-//		System.out.println(nj1);
-//		System.out.println("Rows Returned: " + nj1.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+/*
+		Relation nj1 = db.naturalJoin(customers, payments);
+		System.out.println(nj1);
+		System.out.println("Rows Returned: " + nj1.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 12225.006272 ms
-//
-//		Relation hj1 = db.hashJoin(customers, payments);
-//		System.out.println(hj1);
-//		System.out.println("Rows Returned: " + hj1.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+*/
+		
+/*		
+		Relation hj1 = db.hashJoin(customers, payments);
+		System.out.println(hj1);
+		System.out.println("Rows Returned: " + hj1.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 1.850471 ms
-
-//		Relation nj2 = db.naturalJoin(customers, employees);
-////		System.out.println(nj2);
-//		System.out.println("Rows Returned: " + nj2.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+ */
+ 
+/*
+		Relation nj2 = db.naturalJoin(customers, employees);
+		System.out.println(nj2);
+		System.out.println("Rows Returned: " + nj2.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 7.03947 ms
-//
-//		Relation hj2 = db.hashJoin(customers, employees);
-////		System.out.println(hj2);
-//		System.out.println("Rows Returned: " + hj2.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+*/
+
+/*
+		Relation hj2 = db.hashJoin(customers, employees);
+     	System.out.println(hj2);
+    	System.out.println("Rows Returned: " + hj2.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 4.66453 ms
+ */
 
-//		Relation nj3 = db.naturalJoin(productlines, products);
-////		System.out.println(nj3);
-//		System.out.println("Rows Returned: " + nj3.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
-////		Elapsed Time: 611.121683 ms
-//
-//		Relation hj3 = db.hashJoin(productlines, products);
-////		System.out.println(hj3);
-//		System.out.println("Rows Returned: " + hj3.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+		/*
+		Relation nj3 = db.naturalJoin(productlines, products);
+		System.out.println(nj3);
+		System.out.println("Rows Returned: " + nj3.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
+////	Elapsed Time: 611.121683 ms
+
+		
+		Relation hj3 = db.hashJoin(productlines, products);
+		System.out.println(hj3);
+		System.out.println("Rows Returned: " + hj3.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 1.085564 ms
-
-//		Relation nj4 = db.naturalJoin(orders,orderdetails);
-//		System.out.println(nj4);
-//		System.out.println("Rows Returned: " + nj4.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+*/
+	/*
+		Relation nj4 = db.naturalJoin(orders,orderdetails);
+		System.out.println(nj4);
+		System.out.println("Rows Returned: " + nj4.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 397859.53113 ms
+ */
 
-//		Relation hj4 = db.hashJoin(orders,orderdetails);
-//		System.out.println(hj4);
-//		System.out.println("Rows Returned: " + hj4.getTuples().size());
-//		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
-//		db.resetElapsedTime();
+/*
+
+		Relation hj4 = db.hashJoin(orders,orderdetails);
+		System.out.println(hj4);
+		System.out.println("Rows Returned: " + hj4.getTuples().size());
+		System.out.println("Elapsed Time: " + db.getElapsedTime() + " ms\n");
+		db.resetElapsedTime();
 ////		Elapsed Time: 20.387921 ms
+*/
 
 
 	}
